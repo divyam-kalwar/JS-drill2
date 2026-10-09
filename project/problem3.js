@@ -1,10 +1,12 @@
 // Return an array with all the full names
 function fullNames(data){
-    let names = [];
-    for(const item of data.data){
-        names.push(item.name.join(" "));
+    if(data === undefined || data.data === undefined || !Array.isArray(data.data)){
+        return "Empty data provided";
     }
-    return names;
+    return data.data.reduce((names, item) => {
+        names.push(item.name.join(" "));
+        return names;
+    }, []);
 }
 
 module.exports = fullNames;
