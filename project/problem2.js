@@ -2,30 +2,25 @@
 import data from "../dataset/drill2_dataset.js";
 
 function avgSalary(data){
-    const roles = {};
+    if(data === undefined || data.data === undefined || !Array.isArray(data.data)){
+        return "Empty data provided";
+    }
 
-    for (const role of data.data) {
-        const roleName = role.hr[0];
-        const roleSalary = Number(role.hr[1].replace(/[$,]/g, ""));
+    return data.data.reduce((acc, curr) => {
+        const roleName = curr.hr[0];
+        const roleSalary = Number(curr.hr[1].replace(/[$,]/g, ""));
 
-        if (roles[roleName]) {
-            roles[roleName].salary += roleSalary;
-            roles[roleName].count++;
+        if (acc[roleName]) {
+            acc[roleName].salary += roleSalary;
+            acc[roleName].count++;
         } else {
-            roles[roleName] = {
+            acc[roleName] = {
                 salary: roleSalary,
                 count: 1
             };
         }
-    }
-
-    const result = {};
-
-    for (const role in roles) {
-        result[role] = roles[role].salary / roles[role].count;
-    }
-
-    return result;
+        return acc;
+    }, {});
 }
 
 export default avgSalary;
