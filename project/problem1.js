@@ -15,19 +15,20 @@
     */
 
 function roles(data){
-    let groupRoles = {};
-
-    for(const role of data.data){
-        const roleName = role.hr[0];
-        const personName = role.name.join(" ");
-
-        if(groupRoles.hasOwnProperty(role.hr[0])){
-            groupRoles[roleName].push(personName);
-        } else {
-            groupRoles[roleName] = [personName];
-        }
+    if(data === undefined || data.data === undefined || !Array.isArray(data.data)){
+        return "Empty data provided";
     }
-    return groupRoles;
+    return data.data.reduce((acc, curr) => {
+        const roleName = curr.hr[0];
+        const personName = curr.name.join(" ");
+
+        if(acc.hasOwnProperty(roleName)){
+            acc[roleName].push(personName);
+        } else {
+            acc[roleName] = [personName];
+        }
+        return acc;
+    }, {});
 }
 
 module.exports = roles;
